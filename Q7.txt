@@ -1,0 +1,40 @@
+
+app.py----->
+
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello_docker():
+    return 'Hello, Docker!'
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
+#############################################
+
+dockerfile
+
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY app.py /app
+
+RUN pip install --no-cache-dir Flask
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
+
+############################################
+
+docker build -t my-flask-image .
+
+docker run -d -p 5000:5000 my-flask-image
+
+############################################
+
+ipaddress of master:5000 (in browser)
